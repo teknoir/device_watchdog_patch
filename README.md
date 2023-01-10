@@ -3,13 +3,12 @@ Teknoir Watchdog = Keep-alive scripts for the device
 The patch is applied with Ansible
 
 For Teknoir Ansible plugins see:
-
-https://github.com/teknoir/ansible (running from local)
-https://github.com/teknoir/ansible-notebook (running from notebook, already installed)
-https://github.com/teknoir/ansible-kubeflow (running from kubeflow)
+* https://github.com/teknoir/ansible (running from local)
+* https://github.com/teknoir/ansible-notebook (running from notebook, already installed)
+* https://github.com/teknoir/ansible-kubeflow (running from kubeflow)
 
 The patch is meant to be run with:
-https://github.com/teknoir/device-patch-workflow
+* https://github.com/teknoir/device-patch-workflow
 
 To run:
 1. Create a flow in a devstudio, starting with a "inject"-node to a "function"-node with:
