@@ -1,0 +1,7 @@
+venv
+inv
+old
+.idea
+.patched
+failed_devices
+successful_devices

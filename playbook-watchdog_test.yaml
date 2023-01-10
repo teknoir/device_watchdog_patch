@@ -1,0 +1,52 @@
+---
+- name: Test "Watchdog"
+  hosts: all
+  tasks:
+
+  - name: Install required apt packages
+    apt:
+      name:
+        - python3-pip
+        - libsystemd-dev
+
+  - name: Install required python packages
+    pip:
+      name:
+        - netifaces
+        - kubernetes
+        - systemd-watchdog
+        - python-statemachine
+
+  - name: Create teknoir directory if it does not exist
+    ansible.builtin.file:
+      path: /usr/local/lib/teknoir
+      state: directory
+      mode: '0755'
+
+  - name: Copy watchdog.py
+    ansible.builtin.copy:
+      src: files/watchdog.py
+      dest: /usr/local/lib/teknoir/watchdog.py
+      owner: root
+      group: root
+      mode: '0644'
+
+  - name: Copy tn-watchdog service
+    ansible.builtin.copy:
+      src: files/tn-watchdog.service
+      dest: /lib/systemd/system/tn-watchdog.service
+      owner: root
+      group: root
+      mode: '0644'
+
+  - name: Enable tn-watchdog service ensure it is not masked
+    ansible.builtin.systemd:
+      name: tn-watchdog
+      enabled: yes
+      masked: no
+
+  - name: Make sure tn-watchdog is restarted
+    ansible.builtin.systemd:
+      name: tn-watchdog
+      state: restarted
+      daemon_reload: yes

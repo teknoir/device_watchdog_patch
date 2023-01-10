@@ -1,0 +1,16 @@
+[Unit]
+Description=Teknoir Device Watchdog
+After=network.target
+StartLimitBurst=5
+StartLimitIntervalSec=600
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=10
+ExecStart=/usr/bin/python3 /usr/local/lib/teknoir/watchdog.py --interval 60 --errors 20
+Type=notify
+WatchdogSec=300
+
+[Install]
+WantedBy=multi-user.target
