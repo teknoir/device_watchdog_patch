@@ -16,12 +16,6 @@
         - systemd-watchdog
         - python-statemachine
 
-  - name: Create TNS directory if it does not exist
-    ansible.builtin.file:
-      path: /usr/local/lib/teknoir
-      state: directory
-      mode: '0755'
-
   - name: Create teknoir directory if it does not exist
     ansible.builtin.file:
       path: /usr/local/lib/teknoir
@@ -56,3 +50,15 @@
       state: restarted
       daemon_reload: yes
 
+  - name: If old service tns exist, stop it
+    ignore_errors: true
+    ansible.builtin.systemd:
+      name: tns
+      state: stopped
+      daemon_reload: yes
+
+  - name: If old service tns exist, disable it
+    ignore_errors: true
+    ansible.builtin.systemd:
+      name: tns
+      enabled: no

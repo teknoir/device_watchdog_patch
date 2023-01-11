@@ -44,7 +44,9 @@ class WatchdogSM(StateMachine):
 
     degress = reboot.to.itself()
 
-    error = checkping.from_(checktoe, checkkubernetesapi) | \
+    error = checkping.to(checktoe) | \
+            checktoe.to(checkkubernetesapi) | \
+            checkkubernetesapi.to(running) | \
             uninitialized.to.itself() | \
             reboot.to.itself()
 
