@@ -1,6 +1,7 @@
 ---
 - name: Patch "Watchdog"
   hosts: all
+  become: yes
   tasks:
   - name: Install required apt packages
     apt:
@@ -15,6 +16,7 @@
         - kubernetes
         - systemd-watchdog
         - python-statemachine
+        - requests
 
   - name: Create teknoir directory if it does not exist
     ansible.builtin.file:

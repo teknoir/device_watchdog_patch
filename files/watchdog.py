@@ -6,6 +6,7 @@ import sys
 import time
 import yaml
 import json
+import requests
 
 import kubernetes
 from kubernetes.stream import stream
@@ -139,7 +140,16 @@ class Watchdog(object):
             return True
         except OSError:
             pass
-        self.logger.warning('Cannot ping IP: 1.1.1.1 on port 53')
+        
+        try:
+            response = requests.get('https://us-docker.pkg.dev', timeout=5)
+            if response.status_code == 200:
+                self.logger.info('HTTPS fallback connectivity check successful')
+                return True
+        except Exception as e:
+            self.logger.warning(f'HTTPS fallback check failed: {str(e)}')
+        
+        self.logger.warning('All ping checks failed')
         return False
 
     def checktoe(self):
